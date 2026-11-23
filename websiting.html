@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enthiran</title>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.11.1/core.css">
+    <script type="module" src="https://pyscript.net/releases/2025.11.1/core.js"></script>
+  <link rel= "stylesheet" href = "websitingphone.css">
+</head>
+<body>
+  <header>
+    <h1>Enthiran AI</h1>
+  </header>
+
+  <main>
+    <p>Put any CSV in here, ask which colums you want, then get data analyzed! Uses Logistic Regression.</p>
+  </main>
+    <operations>
+      <starting>
+    <input type="file" id="csvfile" accept=".csv">
+    <button id="on" py-click="dataread">Read Data</button> <br>
+    </starting>
+    <div class="vertline"></div>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXEUbCeYoAZr0VuMGXBDkty4_mSZfYlp_EkpyOInZKUw&s=10" alt="Girl in a jacket" width="200" height="200" id="plotimg" hidden><br>
+      <plotinpsx>
+    <text id="plotinpsxtext" hidden>What are the columns you want to plot for x?</text> <input type="text" id="plotcolmsx" hidden> <br>
+
+    </plotinpsx>
+    <plotinpsy id ="plotinpsy">
+    <text id="plotinpsytext" hidden>What are the columns you want to plot for y?</text> <input type="text" id="plotcolmsy" hidden>
+    </plotinpsy>
+    <plotbtn id ="plotbtn">
+      <button id="plotstart" py-click="plot" hidden>Plot</button>
+    </plotbtn>
+    <centerallign>
+      <instext>
+    <text id="instructioncolums" hidden>What are the columns you want to parse from?</text>
+    <input type="text" id="input_columns" hidden> <br><br>
+    <text id="trainedone" hidden>What is the column you want the AI to predict?</text>
+    <input type="text" id="train_column" hidden><br><br>
+    <summitcolms>
+    <button id='summitcolms' py-click = "aitrain" hidden>Train</button><br><br>
+    </summitcolms>
+      </instext>
+    <finalstep>
+    <text id="goaheadanddoitnow" hidden>Success! Now type your values and see the prediction!</text>
+    </finalstep>
+    <textboxforcolmtry>
+    <input type="text" id="nowtrycolms" hidden>
+    </textboxforcolmtry>
+    <analyze>
+    <button id='summittestcolms' py-click = "query" hidden>Analyze</button><br>
+    </analyze>
+    <results>
+    <text class = "results" id="prediction"></text>
+    </results>
+    </centerallign>
+    </operations>
+  <script type="py" config='{"packages": ["scikit-learn", "pandas", "sqlite3","numpy","matplotlib"]}'>
+    from pyscript import document
+    import io
+    import numpy as np
+    import base64
+    from sklearn.feature_extraction.text import CountVectorizer
+    from sklearn.model_selection import train_test_split
+    from sklearn.ensemble import RandomForestClassifier
+    import pandas as pd
+    import matplotlib.pyplot as plt 
+    import sqlite3
+    conn = sqlite3.connect('new_data.db')
+    model = 2
+    vectorizer = 2
+    vecs = 2
+    def dataread(event):
+        global model
+        #num2 = float(document.querySelector("#second_num").value) #id second_num for this
+        #result = 5
+        input = document.getElementById("input_columns")
+        input.hidden = False
+        inputtext = document.getElementById("instructioncolums")
+        inputtext.hidden = False
+        traintext = document.getElementById("trainedone")
+        traintext.hidden = False
+        traincolumn = document.getElementById("train_column")
+        traincolumn.hidden = False
+        btn = document.getElementById("summitcolms")
+        btn.hidden = False
+        plotinpsxtext = document.getElementById("plotinpsxtext")
+        plotinpsxtext.hidden = False
+        plotcolmsx = document.getElementById("plotcolmsx")
+        plotcolmsx.hidden = False
+        plotinpsytext = document.getElementById("plotinpsytext")
+        plotinpsytext.hidden = False
+        plotcolmsy = document.getElementById("plotcolmsy")
+        plotcolmsy.hidden = False
+        plotstart = document.getElementById("plotstart")
+        plotstart.hidden = False
+        plotimg = document.getElementById("plotimg")
+        plotimg.hidden = False
+        #document.querySelector("#on").innerText = str(result)
+    async def aitrain(event):
+          global vectorizer,model,vecs
+          CSV = document.getElementById("csvfile")
+          inputcolumns = document.getElementById("input_columns").value
+          inputcolums2 = inputcolumns.split(",")
+          targetcolmn = document.getElementById("train_column").value
+          usableCSV = CSV.files.item(0)
+          csv_text = await usableCSV.text()
+          df = pd.read_csv(io.StringIO(csv_text))
+          df.to_sql('Table', conn, if_exists='replace', index=False)
+
+          df['label'] = df[targetcolmn]
+          X_parts = []
+          vectorizer = CountVectorizer()
+          vecs = []
+          for column in inputcolums2:
+            if pd.api.types.is_numeric_dtype(df[column]):
+              pandacolumn1D = df[column].fillna(0).to_numpy().reshape(-1, 1)
+              vecs.append(None)
+            else:
+              vectorizer = CountVectorizer()
+              pandacolumn1D = vectorizer.fit_transform(df[column].fillna('None').astype(str)).toarray()
+              vecs.append(vectorizer)
+            X_parts.append(pandacolumn1D)
+          X = np.hstack(X_parts)
+          y = df['label'] 
+          
+          model = RandomForestClassifier(n_estimators=100, random_state=42)
+          model.fit(X, y)
+          document.querySelector("#success").innerText = "Success!"
+          nowtrycolms = document.getElementById("nowtrycolms")
+          nowtrycolms.hidden = False
+          nowtrytext = document.getElementById("goaheadanddoitnow")
+          nowtrytext.hidden = False
+          summittestcolms = document.getElementById("summittestcolms")
+          summittestcolms.hidden = False
+    async def plot(event):
+      inputcolumns = document.getElementById("input_columns").value
+      xcolumns = document.getElementById("plotcolmsx").value
+      ycolm = document.getElementById("plotcolmsy").value
+      inputcolums2 = inputcolumns.split(",")
+      xcolumns2 = xcolumns.split(",")
+
+      CSV = document.getElementById("csvfile")
+      usableCSV = CSV.files.item(0)
+      csv_text = await usableCSV.text()
+      df = pd.read_csv(io.StringIO(csv_text))
+      uniquevals = []
+      for column in xcolumns2:
+          dfver = df[column]
+          uniquevalseach = []
+          for colm in dfver:
+              if colm not in uniquevalseach:
+                  uniquevalseach.append(colm)
+          uniquevals.append(uniquevalseach)
+
+      xplotpoints = []
+      yplotpoints = []
+      currentitplot = 0
+      for xcol_rn in xcolumns2:
+          current_unique_list = uniquevals[currentitplot]
+          rnxppts = []
+          rnyppts = []
+          for unique_item in current_unique_list:
+              X_partsinput = []
+              currentit = 0
+              for col in inputcolums2:
+                  if col == xcol_rn:
+                      user_value = unique_item
+                  else:
+                      user_value = df[col].iloc[0]
+                  try:
+                      num_val = float(user_value)
+                      pandacolumn1Dinput = np.array([[num_val]])
+                  except ValueError:
+                      vecnum = inputcolums2.index(inputcolums2[currentit])
+                      pandacolumn1Dinput = vecs[vecnum].transform([str(user_value)]).toarray()
+                  X_partsinput.append(pandacolumn1Dinput)
+                  currentit += 1
+              new_input = np.hstack(X_partsinput)
+              prediction = model.predict(new_input)
+              rnxppts.append(unique_item)
+              rnyppts.append(prediction[0])
+
+          xplotpoints.append(rnxppts)
+          yplotpoints.append(rnyppts)
+          currentitplot += 1
+      fig,axis = plt.subplots(figsize=(20, 10))
+
+      plotindex = 0
+      for xcol_rn in xcolumns2:
+          axis.plot(xplotpoints[plotindex], yplotpoints[plotindex], marker="o", label=xcol_rn)
+          plotindex += 1
+
+      axis.set_xlabel(xcolumns2)
+      axis.set_ylabel(ycolm)
+      axis.legend()
+      buf = io.BytesIO()
+      fig.savefig(buf, format="jpg")
+      plt.close(fig)
+      base64_photostr = base64.b64encode(buf.getvalue()).decode("utf-8")
+      photodata = f"data:image/jpeg;base64,{base64_photostr}"
+
+      document.getElementById("plotimg").src = photodata
+    async def query(event):
+      global model,vectorizer,vecs
+      inputcolumns = document.getElementById("input_columns").value
+      inputcolums2 = inputcolumns.split(",")  
+      colmstotry = document.getElementById("nowtrycolms").value 
+      colmstotry2 = colmstotry.split(",")
+      CSV = document.getElementById("csvfile")
+      usableCSV = CSV.files.item(0)
+      csv_text = await usableCSV.text()
+      df = pd.read_csv(io.StringIO(csv_text))
+      X_partsinput = []
+      currentit = 0
+      for column, user_value in zip(inputcolums2, colmstotry2):
+        if user_value.isdigit():
+            pandacolumn1Dinput = np.array([[float(user_value)]])
+            currentit += 1
+        elif not user_value.isdigit():
+            vecnum = inputcolums2.index(inputcolums2[currentit])
+            pandacolumn1Dinput = vecs[vecnum].transform([user_value]).toarray()
+            currentit += 1
+        X_partsinput.append(pandacolumn1Dinput)
+      new_input = np.hstack(X_partsinput)
+      prediction = model.predict(new_input)
+      predictionstr = f'Result: {prediction[0]}'
+      document.querySelector("#prediction").innerText = predictionstr
+  </script>
+</body>
+</html>

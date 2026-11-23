@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=BBH+Bartle&family=Grenze:ital,wght@0,100..900;1,100..900&family=Nova+Flat&display=swap');
+body {
+    background: linear-gradient(268deg, #45c2d0, #d0a193);
+    background-size: 400% 400%;
+
+    -webkit-animation: AnimationName 25s ease infinite;
+    -moz-animation: AnimationName 25s ease infinite;
+    animation: AnimationName 25s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 9%}
+    50%{background-position:100% 92%}
+    100%{background-position:0% 9%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 9%}
+    50%{background-position:100% 92%}
+    100%{background-position:0% 9%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 9%}
+    50%{background-position:100% 92%}
+    100%{background-position:0% 9%}
+}
+h1 {
+    text-align: center;
+    margin-top: 5vh;
+    margin-left: 4px;
+    font-size: 25px;
+    font-family: "BBH Bartle", sans-serif;
+
+}
+starting {
+    margin-left:35px;
+}
+p {
+    text-align: center;
+    margin-left: 8px;
+    font-size: 10px;  
+    font-family: "Nova Flat", system-ui;
+    
+}
+input[type="file"] {
+  font-family: "Nova Flat", system-ui;
+  font-size: 0.75rem;
+  margin-left: -10vh;
+}
+img {
+  margin-left: 0px;
+  margin-top: 20px;
+}
+input[type="file"]::file-selector-button {
+  background-color: #ffbd7a;
+  padding: 0.5rem;
+  
+}
+input[type="text"] {
+  font-size: 0.75rem;
+
+}
+text {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+}
+finalstep {
+display: block;
+margin-left: 50px;
+margin-top: 20px;
+}
+centerallign {
+    display: block;
+    margin-top: 40px;
+    margin-left: -29%;
+}
+button {
+  transition-duration: 0.4s;
+  background-color: #ffbd7a; 
+  padding: 0.5rem;
+  margin-left: -10vh;
+}
+
+button:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+plotinpsx {
+  display: block;
+  margin-left: -30px;
+  margin-top: 30px; 
+}
+plotbtn {
+  display: block;
+  margin-left : 310px;
+  margin-top: -65px;
+}
+.results {
+  display: block;
+  margin-left: 8vh;
+  margin-top: -20px;
+  padding: 15%;
+  font-family: 'Grenze', serif;
+  font-size: 20px;
+}   
+plotinpsy {
+  display: block;
+  margin-left: -30px;
+  margin-top: 30px; 
+}
+textboxforcolmtry {
+    margin-left: 45px;
+}
+analyze {
+  margin-left: 110px;
+}
+summitcolms {
+  display: block;
+  margin-left : 340px;
+  margin-top: -75px;
+}
+operations {
+    display: block;
+    margin-left: 25%; 
+    margin-top: 75px; 
+}
+instext {
+  display: block;
+  margin-left: 50px;
+  margin-top: 80px;
+}

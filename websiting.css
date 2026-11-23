@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=BBH+Bartle&family=Grenze:ital,wght@0,100..900;1,100..900&family=Nova+Flat&display=swap');
+body {
+    background: linear-gradient(268deg, #45c2d0, #d0a193);
+    background-size: 400% 400%;
+
+    -webkit-animation: AnimationName 25s ease infinite;
+    -moz-animation: AnimationName 25s ease infinite;
+    animation: AnimationName 25s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 9%}
+    50%{background-position:100% 92%}
+    100%{background-position:0% 9%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 9%}
+    50%{background-position:100% 92%}
+    100%{background-position:0% 9%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 9%}
+    50%{background-position:100% 92%}
+    100%{background-position:0% 9%}
+}
+.vertline {
+  border-left: 6px solid rgb(0, 0, 0);
+  height: 100vh;
+  position: absolute;
+  left: 58%;
+  margin-left: -2px;
+  top: 0;
+}
+h1 {
+    text-align: center;
+    margin-top: 5vh;
+    margin-left: -70vh;
+    font-size: 2rem;
+    font-family: "BBH Bartle", sans-serif;
+
+}
+p {
+    text-align: center;
+    margin-left: -70vh;
+    font-size: 0.75rem;  
+    font-family: "Nova Flat", system-ui;
+    
+}
+input[type="file"] {
+  font-family: "Nova Flat", system-ui;
+  font-size: 0.75rem;
+  margin-left: -10vh;
+}
+img {
+  margin-left: 85vh;
+  margin-top: -20vh;
+}
+input[type="file"]::file-selector-button {
+  background-color: #ffbd7a;
+  padding: 0.5rem;
+  
+}
+input[type="text"] {
+  font-size: 0.75rem;
+
+}
+text {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+}
+finalstep {
+margin-left: -30px;
+}
+centerallign {
+    display: block;
+    margin-top: 40px;
+    margin-left: -29%;
+}
+button {
+  transition-duration: 0.4s;
+  background-color: #ffbd7a; 
+  padding: 0.5rem;
+  margin-left: -10vh;
+}
+
+button:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+plotinpsx {
+  display: block;
+  margin-left: 82vh;
+}
+plotbtn {
+  display: block;
+  margin-left : 143vh;
+  margin-top: -5vh;
+}
+.results {
+  display: block;
+  margin-left: 8vh;
+  margin-top: -24vh;
+  padding: 15%;
+  font-family: 'Grenze', serif;
+  font-size: 2.1rem;
+}
+plotinpsy {
+  display: block;
+  margin-left: 82vh;
+}
+analyze {
+  margin-left: 10vh;
+}
+summitcolms {
+  margin-left: 10vh;
+}
+operations {
+    display: block;
+    margin-left: 25%; 
+    margin-top: 75px; 
+}
+instext {
+  display: block;
+  margin-left: -2vh;
+  margin-top: -20vh;
+}
